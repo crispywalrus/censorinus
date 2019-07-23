@@ -10,7 +10,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest._
 import org.scalatest.concurrent.Eventually
-import github.gphat.censorinus.statsd.Encoder
+import statsd.Encoder
 
 object TestSender {
   def defaultDeadline: Long = System.currentTimeMillis + 1000

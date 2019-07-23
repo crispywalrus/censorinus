@@ -1,8 +1,7 @@
 package llc.flyingwalrus
 package censorinus
 
-import github.gphat.censorinus.dogstatsd.Encoder
-
+import dogstatsd.Encoder
 import scala.util.matching.Regex
 
 object DogStatsDClient {

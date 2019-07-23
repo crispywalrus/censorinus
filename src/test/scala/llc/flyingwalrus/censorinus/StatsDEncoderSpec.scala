@@ -2,7 +2,7 @@ package llc.flyingwalrus
 package censorinus
 
 import org.scalatest._
-import github.gphat.censorinus.statsd.Encoder
+import statsd.Encoder
 
 class StatsDEncoderSpec extends FlatSpec with Matchers {
 

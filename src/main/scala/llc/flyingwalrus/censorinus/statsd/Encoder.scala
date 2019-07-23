@@ -1,7 +1,7 @@
 package llc.flyingwalrus
 package censorinus
+package statsd
 
-import github.gphat.censorinus._
 import java.text.DecimalFormat
 
 /** A Metric to String encoder for StatsD protocol.

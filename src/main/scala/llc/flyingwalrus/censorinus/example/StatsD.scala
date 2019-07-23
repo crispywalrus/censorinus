@@ -1,8 +1,6 @@
 package llc.flyingwalrus
 package censorinus
 
-import github.gphat.censorinus.StatsDClient
-
 import java.util.UUID
 import scala.util.Random
 
