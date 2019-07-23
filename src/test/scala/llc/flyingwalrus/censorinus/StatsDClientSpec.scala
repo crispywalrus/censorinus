@@ -17,63 +17,63 @@ class StatsDClientSpec extends FlatSpec with Matchers with BeforeAndAfter {
   "StatsDClient" should "deal with gauges" in {
     client.gauge("foobar", 1.0)
     val m = client.queue.poll
-    m shouldBe a [GaugeMetric]
+    m shouldBe a[GaugeMetric]
     val g = m.asInstanceOf[GaugeMetric]
-    g.name should be ("poop.foobar")
-    g.value should be (1.00000000)
+    g.name should be("poop.foobar")
+    g.value should be(1.00000000)
   }
 
   it should "deal with counters" in {
     client.counter("foobar", 1.0)
     val m = client.queue.poll
-    m shouldBe a [CounterMetric]
+    m shouldBe a[CounterMetric]
     val c = m.asInstanceOf[CounterMetric]
-    c.name should be ("poop.foobar")
-    c.value should be (1.0)
+    c.name should be("poop.foobar")
+    c.value should be(1.0)
   }
 
   it should "deal with increments" in {
     client.increment("foobar")
     val m = client.queue.poll
-    m shouldBe a [CounterMetric]
+    m shouldBe a[CounterMetric]
     val c = m.asInstanceOf[CounterMetric]
-    c.name should be ("poop.foobar")
-    c.value should be (1.0)
+    c.name should be("poop.foobar")
+    c.value should be(1.0)
   }
 
   it should "deal with decrements" in {
     client.decrement("foobar")
     val m = client.queue.poll
-    m shouldBe a [CounterMetric]
+    m shouldBe a[CounterMetric]
     val c = m.asInstanceOf[CounterMetric]
-    c.name should be ("poop.foobar")
-    c.value should be (-1.0)
+    c.name should be("poop.foobar")
+    c.value should be(-1.0)
   }
 
   it should "deal with meters" in {
     client.meter("foobar", 1.0)
     val m = client.queue.poll
-    m shouldBe a [MeterMetric]
+    m shouldBe a[MeterMetric]
     val mm = m.asInstanceOf[MeterMetric]
-    mm.name should be ("poop.foobar")
-    mm.value should be (1.0)
+    mm.name should be("poop.foobar")
+    mm.value should be(1.0)
   }
 
   it should "deal with sets" in {
     client.set("foobar", "fart")
     val m = client.queue.poll
-    m shouldBe a [SetMetric]
+    m shouldBe a[SetMetric]
     val s = m.asInstanceOf[SetMetric]
-    s.name should be ("poop.foobar")
-    s.value should be ("fart")
+    s.name should be("poop.foobar")
+    s.value should be("fart")
   }
 
   it should "deal with big doubles" in {
     client.meter("foobar", 1.01010101010101010101)
     val m = client.queue.poll
-    m shouldBe a [MeterMetric]
+    m shouldBe a[MeterMetric]
     val mm = m.asInstanceOf[MeterMetric]
-    mm.name should be ("poop.foobar")
-    mm.value should be (1.01010101010101010101)
+    mm.name should be("poop.foobar")
+    mm.value should be(1.01010101010101010101)
   }
 }

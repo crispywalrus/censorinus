@@ -7,7 +7,7 @@ import scala.util.Random
 object DogStatsD {
 
   def main(args: Array[String]): Unit = {
-    val client = new DogStatsDClient(asynchronous=false)
+    val client = new DogStatsDClient(asynchronous = false)
 
     client.gauge("foo.bar.baz_gauge", 10.0, tags = Seq("gorch:flurb"))
     client.increment("foo.bar.baz_counter", 1, tags = Seq("gorch:flurb"))

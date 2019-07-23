@@ -7,7 +7,7 @@ import scala.util.Random
 object StatsD {
 
   def main(args: Array[String]): Unit = {
-    val client = new StatsDClient(asynchronous=false)
+    val client = new StatsDClient(asynchronous = false)
 
     client.gauge("foo.bar.baz_gauge", 10.0)
     client.increment("foo.bar.baz_counter", 1)

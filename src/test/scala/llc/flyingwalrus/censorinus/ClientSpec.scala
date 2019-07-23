@@ -4,8 +4,8 @@ package censorinus
 import com.github.ghik.silencer.silent
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.{CountDownLatch, LinkedBlockingQueue, TimeUnit}
-import org.scalacheck.{Arbitrary, Gen}
+import java.util.concurrent.{ CountDownLatch, LinkedBlockingQueue, TimeUnit }
+import org.scalacheck.{ Arbitrary, Gen }
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest._
@@ -55,17 +55,13 @@ class ClientSpec extends FlatSpec with Matchers with Eventually with GeneratorDr
     val client = new Client(encoder = Encoder, sender = sender)
     client.enqueue(GaugeMetric(name = "foobar", value = 1.0))
     val msg :: Nil = sender.awaitMessages(1)
-    msg should be ("foobar:1|g")
+    msg should be("foobar:1|g")
     client.shutdown
   }
 
   it should "batch metrics when batching is configured" in {
     val sender = new TestSender()
-    val client = new Client(
-      encoder = Encoder,
-      sender = sender,
-      maxQueueSize = Some(10),
-      maxBatchSize = Some(20))
+    val client = new Client(encoder = Encoder, sender = sender, maxQueueSize = Some(10), maxBatchSize = Some(20))
 
     for (_ <- (0 to 2)) {
       // By synchronizing on sender, we can block the client on the first metric
@@ -109,20 +105,20 @@ class ClientSpec extends FlatSpec with Matchers with Eventually with GeneratorDr
     // This metric will be dropped instead of queued up.
     client.enqueue(GaugeMetric(name = "b", value = 4.0))
 
-    client.consecutiveDroppedMetrics.get should be (2)
+    client.consecutiveDroppedMetrics.get should be(2)
 
     // // We drain the buffer and the client's queue.
     // val messages = sender.awaitMessages(3)
-    client.queue.peek should be (GaugeMetric(name = "a", value = 1.0))
+    client.queue.peek should be(GaugeMetric(name = "a", value = 1.0))
 
     // Clear things out
     client.queue.clear
 
     // Now that things are empty again, this will flow through.
     client.enqueue(GaugeMetric(name = "c", value = 5.0))
-    client.queue.peek should be (GaugeMetric(name = "c", value = 5.0))
+    client.queue.peek should be(GaugeMetric(name = "c", value = 5.0))
 
-    client.queue.size should be (1)
+    client.queue.size should be(1)
   }
 
   // Batches `lines` using `batcher` and then decodes the resulting
@@ -145,7 +141,8 @@ class ClientSpec extends FlatSpec with Matchers with Eventually with GeneratorDr
     .map { s =>
       // We want the final encoded size to be less than maxMetricLength, so
       // we do a janky thing here.
-      Iterator.from(1)
+      Iterator
+        .from(1)
         .map { k =>
           val len = s.length / k
           s.substring(0, math.min(s.length, len))

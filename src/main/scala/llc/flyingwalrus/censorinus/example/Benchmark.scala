@@ -4,16 +4,16 @@ package censorinus
 object Benchmark {
 
   def main(args: Array[String]): Unit = {
-    val client = new DogStatsDClient(asynchronous=true, defaultSampleRate = 1, maxQueueSize = Some(10000))
+    val client = new DogStatsDClient(asynchronous = true, defaultSampleRate = 1, maxQueueSize = Some(10000))
 
     val iterations = 10
-    var tot = 0L
+    var tot        = 0L
     Range(start = 0, end = iterations - 1, step = 1).foreach({ h =>
       tot += time {
         Range(start = 0, end = 10050, step = 1).foreach({ h =>
           client.increment("foo.bar.baz_counter", 1, tags = Seq("gorch:flurb"))
         })
-        while(client.queue.size > 0) {
+        while (client.queue.size > 0) {
           // Nothing
         }
       }
