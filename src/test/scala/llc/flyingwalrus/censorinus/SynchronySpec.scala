@@ -1,4 +1,5 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
 import org.scalatest._
 import org.scalatest.concurrent.Eventually

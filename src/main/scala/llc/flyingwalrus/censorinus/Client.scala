@@ -1,12 +1,13 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
+import com.github.ghik.silencer.silent
 import java.nio.{ByteBuffer, CharBuffer}
 import java.nio.charset.{CharsetEncoder, CoderResult, StandardCharsets}
 import java.util.ArrayList
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
-
 import scala.util.control.NonFatal
 import scala.collection.JavaConverters._
 
@@ -27,6 +28,7 @@ import scala.collection.JavaConverters._
   * @param maxQueueSize Maximum amount of metrics allowed to be queued at a time.
   * @param maxBatchSize maximum size of byte buffer supplied to `sender`
   */
+@silent("deprecated")
 class Client(
   encoder: MetricEncoder,
   sender: MetricSender,
@@ -162,6 +164,7 @@ class Client(
   }
 }
 
+@silent("deprecated")
 object Client {
 
   /**

@@ -1,5 +1,7 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
+import com.github.ghik.silencer.silent
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.{CountDownLatch, LinkedBlockingQueue, TimeUnit}
@@ -45,6 +47,7 @@ class TestSender(val maxMessages: Int = Int.MaxValue) extends MetricSender {
   def shutdown: Unit = ()
 }
 
+@silent("deprecated")
 class ClientSpec extends FlatSpec with Matchers with Eventually with GeneratorDrivenPropertyChecks {
 
   "ClientSpec" should "deal with gauges" in {
