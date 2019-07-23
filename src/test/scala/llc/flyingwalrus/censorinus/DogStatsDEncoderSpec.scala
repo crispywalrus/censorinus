@@ -2,7 +2,7 @@ package llc.flyingwalrus
 package censorinus
 
 import com.github.ghik.silencer.silent
-import github.gphat.censorinus.dogstatsd.Encoder
+import dogstatsd.Encoder
 import org.scalatest._
 
 @silent("deprecated")

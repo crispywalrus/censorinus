@@ -12,13 +12,9 @@ scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-Xfatal-warnings",
-  // "-Xlint",
-//  "-Yno-adapted-args",
   "-Ywarn-dead-code",
   "-Ywarn-numeric-widen",
-  "-Ywarn-value-discard",
-  // "-Xfuture",
-  // "-Ywarn-unused-import",
+  "-Ywarn-value-discard"
 )
 
 val silencerVersion = "1.4.1"

@@ -3,7 +3,7 @@ package censorinus
 
 import org.scalatest._
 import org.scalatest.concurrent.Eventually
-import github.gphat.censorinus.statsd.Encoder
+import statsd.Encoder
 
 class SynchronySpec extends FlatSpec with Matchers with Eventually {
 

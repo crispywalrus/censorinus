@@ -1,8 +1,6 @@
 package llc.flyingwalrus
 package censorinus
 
-import github.gphat.censorinus.DogStatsDClient
-
 object Benchmark {
 
   def main(args: Array[String]): Unit = {

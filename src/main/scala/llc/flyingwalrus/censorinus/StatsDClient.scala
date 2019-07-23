@@ -1,7 +1,7 @@
 package llc.flyingwalrus
 package censorinus
 
-import github.gphat.censorinus.statsd.Encoder
+import statsd.Encoder
 
 /** A StatsD client! You should create one of these and reuse it across
   * your application.
