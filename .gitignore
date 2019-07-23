@@ -5,3 +5,6 @@ tmp
 .idea/
 .idea_modules/
 tags
+.bloop
+.metals
+

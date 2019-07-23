@@ -1,4 +1,5 @@
-package github.gphat.censorinus.example
+package llc.flyingwalrus
+package censorinus
 
 import github.gphat.censorinus.DogStatsDClient
 

@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/gphat/censorinus.svg?branch=master)](https://travis-ci.org/gphat/censorinus)
 
+**This project was forked from
+(Censorinus)[https://github.com/gphat/censorinus] with the resultant
+artifacts moved in maven and package coordinate space**
+
 Censorinus is a Scala \*StatsD client with multiple personalities.
 
 # Features
@@ -20,11 +24,11 @@ Censorinus is available on Maven Central.
 
 ```scala
 // Use %% and don't worry about Scala version
-libraryDependencies += "com.github.gphat" %% "censorinus" % "2.1.13"
+libraryDependencies += "llc.flyingwalrus" %% "censorinus" % "2.1.13"
 // Or add the Dep for Scala 2.12
-libraryDependencies += "com.github.gphat" % "censorinus_2.12" % "2.1.13"
+libraryDependencies += "llc.flyingwalrus" % "censorinus_2.12" % "2.1.13"
 // Or add the Dep for Scala 2.11
-libraryDependencies += "com.github.gphat" % "censorinus_2.11" % "2.1.13"
+libraryDependencies += "llc.flyingwalrus" % "censorinus_2.11" % "2.1.13"
 ```
 
 You should create a single instance of a client reuse it throughout your

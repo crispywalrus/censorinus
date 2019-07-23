@@ -1,8 +1,11 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
-import org.scalatest._
+import com.github.ghik.silencer.silent
 import github.gphat.censorinus.dogstatsd.Encoder
+import org.scalatest._
 
+@silent("deprecated")
 class DogStatsDEncoderSpec extends FlatSpec with Matchers {
 
   "DogStatsD Encoder" should "encode gauges" in {

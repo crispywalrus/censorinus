@@ -1,4 +1,5 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
 import java.net.{InetSocketAddress,SocketException}
 import java.nio.ByteBuffer

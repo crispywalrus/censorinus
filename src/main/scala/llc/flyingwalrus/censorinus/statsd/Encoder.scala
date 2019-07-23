@@ -1,4 +1,5 @@
-package github.gphat.censorinus.statsd
+package llc.flyingwalrus
+package censorinus
 
 import github.gphat.censorinus._
 import java.text.DecimalFormat

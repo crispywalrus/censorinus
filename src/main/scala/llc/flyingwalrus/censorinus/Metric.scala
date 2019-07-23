@@ -1,4 +1,5 @@
-package github.gphat.censorinus
+package llc.flyingwalrus
+package censorinus
 
 trait Metric {
   def name: String
