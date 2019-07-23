@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/gphat/censorinus.svg?branch=master)](https://travis-ci.org/gphat/censorinus)
 
 **This project was forked from
-(Censorinus)[https://github.com/gphat/censorinus] with the resultant
+[Censorinus](https://github.com/gphat/censorinus) with the resultant
 artifacts moved in maven and package coordinate space**
 
 Censorinus is a Scala \*StatsD client with multiple personalities.
