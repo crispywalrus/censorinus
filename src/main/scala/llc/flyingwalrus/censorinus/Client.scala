@@ -2,8 +2,8 @@ package llc.flyingwalrus
 package censorinus
 
 import com.github.ghik.silencer.silent
-import java.nio.{ByteBuffer, CharBuffer}
-import java.nio.charset.{CharsetEncoder, CoderResult, StandardCharsets}
+import java.nio.{ ByteBuffer, CharBuffer }
+import java.nio.charset.{ CharsetEncoder, CoderResult, StandardCharsets }
 import java.util.ArrayList
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicLong
@@ -30,15 +30,15 @@ import scala.collection.JavaConverters._
   */
 @silent("deprecated")
 class Client(
-  encoder: MetricEncoder,
-  sender: MetricSender,
-  prefix: String = "",
-  val defaultSampleRate: Double = 1.0,
-  asynchronous: Boolean = true,
-  maxQueueSize: Option[Int] = None,
-  consecutiveDropWarnThreshold: Long = 1000,
-  val consecutiveDroppedMetrics: AtomicLong = new AtomicLong(0),
-  val maxBatchSize: Option[Int] = None
+    encoder: MetricEncoder,
+    sender: MetricSender,
+    prefix: String = "",
+    val defaultSampleRate: Double = 1.0,
+    asynchronous: Boolean = true,
+    maxQueueSize: Option[Int] = None,
+    consecutiveDropWarnThreshold: Long = 1000,
+    val consecutiveDroppedMetrics: AtomicLong = new AtomicLong(0),
+    val maxBatchSize: Option[Int] = None
 ) {
   private[this] val log: Logger = Logger.getLogger(classOf[Client].getName)
 
@@ -53,17 +53,19 @@ class Client(
   }
 
   private[censorinus] val queue: LinkedBlockingQueue[Metric] =
-    maxQueueSize.map({
-      capacity => new LinkedBlockingQueue[Metric](capacity)
-    }).getOrElse(
-      // Unbounded is kinda dangerous, but sure!
-      new LinkedBlockingQueue[Metric]()
-    )
+    maxQueueSize
+      .map({ capacity =>
+        new LinkedBlockingQueue[Metric](capacity)
+      })
+      .getOrElse(
+        // Unbounded is kinda dangerous, but sure!
+        new LinkedBlockingQueue[Metric]()
+      )
 
   // This is an Option[Executor] to allow for NOT sending things.
   // We'll make an executor if we are running in asynchronous mode then spin up
   // the thread-works.
-  private[this] val executor: Option[ExecutorService] = if(asynchronous) {
+  private[this] val executor: Option[ExecutorService] = if (asynchronous) {
     Some(Executors.newSingleThreadExecutor(new ThreadFactory {
       override def newThread(r: Runnable): Thread = {
         val t = Executors.defaultThreadFactory.newThread(r)
@@ -80,38 +82,38 @@ class Client(
   executor.foreach { ex =>
     val task = new Runnable {
       val metrics = new ArrayList[Metric]()
-      def tick(): Unit = try {
-        metrics.clear()
-        // Start with `take()` since it'll block on an empty queue. If this
-        // succeeds, then drain any remaining metrics into our metrics list.
-        val head = queue.take()
-        if (head != null) {
-          metrics.add(head)
-          // Drain remaining metrics into the list.
-          queue.drainTo(metrics)
-          send(metrics.iterator.asScala)
-        } else {
-          ()
+      def tick(): Unit =
+        try {
+          metrics.clear()
+          // Start with `take()` since it'll block on an empty queue. If this
+          // succeeds, then drain any remaining metrics into our metrics list.
+          val head = queue.take()
+          if (head != null) {
+            metrics.add(head)
+            // Drain remaining metrics into the list.
+            queue.drainTo(metrics)
+            send(metrics.iterator.asScala)
+          } else {
+            ()
+          }
+        } catch {
+          case _: InterruptedException => Thread.currentThread.interrupt
+          case NonFatal(exception) => {
+            log.warning(s"Swallowing exception thrown while sending metric: $exception")
+          }
         }
-      } catch {
-        case _: InterruptedException => Thread.currentThread.interrupt
-        case NonFatal(exception) => {
-          log.warning(s"Swallowing exception thrown while sending metric: $exception")
-        }
-      }
 
-      def run(): Unit = {
+      def run(): Unit =
         while (!Thread.interrupted) {
           tick
         }
-      }
     }
 
     ex.submit(task)
   }
 
   /** Explicitly shut down the client and it's underlying bits.
-   */
+    */
   def shutdown(): Unit = {
     sender.shutdown
     // It's pretty safe to just forcibly shutdown the executor and interrupt
@@ -119,15 +121,16 @@ class Client(
     executor.foreach(_.shutdownNow)
   }
 
-  def enqueue(metric: Metric, sampleRate: Double = defaultSampleRate, bypassSampler: Boolean = false): Unit = {
-    if(bypassSampler || sampleRate >= 1.0 || ThreadLocalRandom.current.nextDouble <= sampleRate) {
-      if(asynchronous) {
+  def enqueue(metric: Metric, sampleRate: Double = defaultSampleRate, bypassSampler: Boolean = false): Unit =
+    if (bypassSampler || sampleRate >= 1.0 || ThreadLocalRandom.current.nextDouble <= sampleRate) {
+      if (asynchronous) {
         // Queue it up! Leave encoding for later so get we back as soon as we can.
         if (!queue.offer(metric)) {
           val dropped = consecutiveDroppedMetrics.incrementAndGet
           if (dropped == 1 || (dropped % consecutiveDropWarnThreshold) == 0) {
-            log.warning("Queue is full. Metric was dropped. " +
-              "Consider decreasing the defaultSampleRate or increasing the maxQueueSize."
+            log.warning(
+              "Queue is full. Metric was dropped. " +
+                "Consider decreasing the defaultSampleRate or increasing the maxQueueSize."
             )
           }
         }
@@ -137,15 +140,13 @@ class Client(
         send(Iterator.single(metric))
       }
     }
-  }
 
-  protected def makeName(name: String): String = {
-    if(prefix.isEmpty) {
+  protected def makeName(name: String): String =
+    if (prefix.isEmpty) {
       name
     } else {
       new StringBuilder(prefix).append(".").append(name).toString
     }
-  }
 
   // Encode and send a metric to something approximating statsd.
   private def send(metrics: Iterator[Metric]): Unit = {
@@ -168,21 +169,21 @@ class Client(
 object Client {
 
   /**
-   * Batches metrics encoded with a [[MetricEncoder]] into byte buffers to be
-   * sent with a [[MetricSender]].
-   */
+    * Batches metrics encoded with a [[MetricEncoder]] into byte buffers to be
+    * sent with a [[MetricSender]].
+    */
   sealed trait Batcher {
 
     /**
-     * Iterate over all lines, batching metrics as possible, and sending them
-     * to `f`. The `ByteBuffer` provided to `f` is only owned by the caller for
-     * the duration of `f`. Any use of the `ByteBuffer` outside of this will
-     * result in undefined and, likely, confusing/incorrect behaviour. This
-     * will completely exhaust `line`.
-     *
-     * @param lines the encoded metrics to batch
-     * @param f the caller-supplied function to send the batched metrics to
-     */
+      * Iterate over all lines, batching metrics as possible, and sending them
+      * to `f`. The `ByteBuffer` provided to `f` is only owned by the caller for
+      * the duration of `f`. Any use of the `ByteBuffer` outside of this will
+      * result in undefined and, likely, confusing/incorrect behaviour. This
+      * will completely exhaust `line`.
+      *
+      * @param lines the encoded metrics to batch
+      * @param f the caller-supplied function to send the batched metrics to
+      */
     def batch(lines: Iterator[String])(f: ByteBuffer => Unit): Unit = {
       val buffered = lines.buffered
       while (buffered.hasNext) {
@@ -204,7 +205,7 @@ object Client {
   }
 
   final case class Batched(bufferSize: Int) extends Batcher {
-    private[this] val buffer: ByteBuffer = ByteBuffer.allocate(bufferSize)
+    private[this] val buffer: ByteBuffer      = ByteBuffer.allocate(bufferSize)
     private[this] val encoder: CharsetEncoder = StandardCharsets.UTF_8.newEncoder()
 
     protected def batch1(lines: BufferedIterator[String])(f: ByteBuffer => Unit): Unit =

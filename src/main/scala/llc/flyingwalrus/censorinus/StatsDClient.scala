@@ -14,19 +14,19 @@ import statsd.Encoder
   * @param allowExceptions If false, any `SocketException`s will be swallowed silently
   */
 class StatsDClient(
-  hostname: String = "localhost",
-  port: Int = MetricSender.DEFAULT_STATSD_PORT,
-  prefix: String = "",
-  defaultSampleRate: Double = 1.0,
-  asynchronous: Boolean = true,
-  allowExceptions: Boolean = false
+    hostname: String = "localhost",
+    port: Int = MetricSender.DEFAULT_STATSD_PORT,
+    prefix: String = "",
+    defaultSampleRate: Double = 1.0,
+    asynchronous: Boolean = true,
+    allowExceptions: Boolean = false
 ) extends Client(
-  sender = new UDPSender(hostname = hostname, port = port, allowExceptions = allowExceptions),
-  encoder = Encoder,
-  prefix = prefix,
-  defaultSampleRate = defaultSampleRate,
-  asynchronous = asynchronous
-) {
+      sender = new UDPSender(hostname = hostname, port = port, allowExceptions = allowExceptions),
+      encoder = Encoder,
+      prefix = prefix,
+      defaultSampleRate = defaultSampleRate,
+      asynchronous = asynchronous
+    ) {
 
   /** Emit a counter metric.
     * @param name The name of the metric
@@ -36,10 +36,10 @@ class StatsDClient(
     *                      This is useful for when you occasionally do your own sampling.
     */
   def counter(
-    name: String,
-    value: Double,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
+      name: String,
+      value: Double,
+      sampleRate: Double = defaultSampleRate,
+      bypassSampler: Boolean = false
   ): Unit = enqueue(
     CounterMetric(name = makeName(name), value = value, sampleRate = sampleRate),
     sampleRate,
@@ -54,10 +54,10 @@ class StatsDClient(
     *                      This is useful for when you occasionally do your own sampling.
     */
   def decrement(
-    name: String,
-    value: Double = -1,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
+      name: String,
+      value: Double = -1,
+      sampleRate: Double = defaultSampleRate,
+      bypassSampler: Boolean = false
   ): Unit = enqueue(
     CounterMetric(name = makeName(name), value = value, sampleRate = sampleRate),
     sampleRate,
@@ -72,10 +72,10 @@ class StatsDClient(
     *                      This is useful for when you occasionally do your own sampling.
     */
   def gauge(
-    name: String,
-    value: Double,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
+      name: String,
+      value: Double,
+      sampleRate: Double = defaultSampleRate,
+      bypassSampler: Boolean = false
   ): Unit = enqueue(
     GaugeMetric(name = makeName(name), value = value),
     sampleRate,
@@ -90,10 +90,10 @@ class StatsDClient(
     *                      This is useful for when you occasionally do your own sampling.
     */
   def increment(
-    name: String,
-    value: Double = 1,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
+      name: String,
+      value: Double = 1,
+      sampleRate: Double = defaultSampleRate,
+      bypassSampler: Boolean = false
   ): Unit = enqueue(
     CounterMetric(name = makeName(name), value = value, sampleRate = sampleRate),
     sampleRate,
@@ -108,10 +108,10 @@ class StatsDClient(
     *                      This is useful for when you occasionally do your own sampling.
     */
   def meter(
-    name: String,
-    value: Double,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
+      name: String,
+      value: Double,
+      sampleRate: Double = defaultSampleRate,
+      bypassSampler: Boolean = false
   ): Unit = enqueue(
     MeterMetric(name = makeName(name), value = value),
     sampleRate,
@@ -119,9 +119,9 @@ class StatsDClient(
   )
 
   /** Emit e a set metric.
-   * @param name The name of the metric
-   * @param value The item to add to the set
-   */
+    * @param name The name of the metric
+    * @param value The item to add to the set
+    */
   def set(name: String, value: String): Unit = enqueue(
     SetMetric(name = makeName(name), value = value)
   )
@@ -133,13 +133,10 @@ class StatsDClient(
     * @param bypassSampler If true, the metric will always be passed through, but the sample rate will be included in the emitted metric.
     *                      This is useful for when you occasionally do your own sampling.
     */
-  def timer(name: String,
-    milliseconds: Double,
-    sampleRate: Double = defaultSampleRate,
-    bypassSampler: Boolean = false
-  ): Unit = enqueue(
-    TimerMetric(name = makeName(name), value = milliseconds, sampleRate = sampleRate),
-    sampleRate,
-    bypassSampler
-  )
+  def timer(name: String, milliseconds: Double, sampleRate: Double = defaultSampleRate, bypassSampler: Boolean = false): Unit =
+    enqueue(
+      TimerMetric(name = makeName(name), value = milliseconds, sampleRate = sampleRate),
+      sampleRate,
+      bypassSampler
+    )
 }

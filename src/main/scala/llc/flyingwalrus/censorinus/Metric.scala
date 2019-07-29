@@ -19,61 +19,70 @@ trait StringMetric {
 }
 
 case class CounterMetric(
-  name: String,
-  value: Double,
-  sampleRate: Double = 1.0,
-  tags: Seq[String] = Seq.empty
-) extends Metric with NumericMetric with SampledMetric
+    name: String,
+    value: Double,
+    sampleRate: Double = 1.0,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with NumericMetric
+    with SampledMetric
 
 case class EventMetric(
-  name: String,
-  text: String,
-  timestamp: Option[Long],
-  hostname: Option[String],
-  aggregationKey: Option[String],
-  priority: Option[String],
-  sourceTypeName: Option[String],
-  alertType: Option[String],
-  tags: Seq[String] = Seq.empty
+    name: String,
+    text: String,
+    timestamp: Option[Long],
+    hostname: Option[String],
+    aggregationKey: Option[String],
+    priority: Option[String],
+    sourceTypeName: Option[String],
+    alertType: Option[String],
+    tags: Seq[String] = Seq.empty
 ) extends Metric
 
 case class GaugeMetric(
-  name: String,
-  value: Double,
-  tags: Seq[String] = Seq.empty
-) extends Metric with NumericMetric
+    name: String,
+    value: Double,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with NumericMetric
 
 case class HistogramMetric(
-  name: String,
-  value: Double,
-  sampleRate: Double = 1.0,
-  tags: Seq[String] = Seq.empty
-) extends Metric with NumericMetric with SampledMetric
+    name: String,
+    value: Double,
+    sampleRate: Double = 1.0,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with NumericMetric
+    with SampledMetric
 
 case class MeterMetric(
-  name: String,
-  value: Double,
-  tags: Seq[String] = Seq.empty
-) extends Metric with NumericMetric
+    name: String,
+    value: Double,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with NumericMetric
 
 case class ServiceCheckMetric(
-  name: String,
-  status: Int,
-  timestamp: Option[Long] = None,
-  hostname: Option[String] = None,
-  message: Option[String] = None,
-  tags: Seq[String] = Seq.empty
+    name: String,
+    status: Int,
+    timestamp: Option[Long] = None,
+    hostname: Option[String] = None,
+    message: Option[String] = None,
+    tags: Seq[String] = Seq.empty
 ) extends Metric
 
 case class SetMetric(
-  name: String,
-  value: String,
-  tags: Seq[String] = Seq.empty
-) extends Metric with StringMetric
+    name: String,
+    value: String,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with StringMetric
 
 case class TimerMetric(
-  name: String,
-  value: Double,
-  sampleRate: Double = 1.0,
-  tags: Seq[String] = Seq.empty
-) extends Metric with NumericMetric with SampledMetric
+    name: String,
+    value: Double,
+    sampleRate: Double = 1.0,
+    tags: Seq[String] = Seq.empty
+) extends Metric
+    with NumericMetric
+    with SampledMetric
