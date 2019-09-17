@@ -6,7 +6,7 @@ import java.nio.ByteBuffer
 trait MetricSender {
   def send(message: ByteBuffer): Unit
 
-  def shutdown: Unit
+  def shutdown(): Unit
 }
 
 object MetricSender {

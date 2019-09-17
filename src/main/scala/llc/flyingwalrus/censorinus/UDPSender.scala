@@ -28,5 +28,5 @@ class UDPSender(
       }
     }
 
-  def shutdown: Unit = clientSocket.close
+  def shutdown(): Unit = clientSocket.close
 }
