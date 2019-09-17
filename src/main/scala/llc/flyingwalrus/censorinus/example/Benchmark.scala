@@ -8,9 +8,9 @@ object Benchmark {
 
     val iterations = 10
     var tot        = 0L
-    Range(start = 0, end = iterations - 1, step = 1).foreach({ h =>
+    Range(start = 0, end = iterations - 1, step = 1).foreach({ _ =>
       tot += time {
-        Range(start = 0, end = 10050, step = 1).foreach({ h =>
+        Range(start = 0, end = 10050, step = 1).foreach({ _ =>
           client.increment("foo.bar.baz_counter", 1, tags = Seq("gorch:flurb"))
         })
         while (client.queue.size > 0) {

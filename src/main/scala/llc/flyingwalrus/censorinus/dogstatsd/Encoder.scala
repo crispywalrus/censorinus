@@ -30,7 +30,7 @@ object Encoder extends MetricEncoder {
       encodeTags(sb, metric.tags)
       Some(sb.toString)
 
-    case sm: StringMetric =>
+    case _: StringMetric =>
       Some(encodeSimpleMetric(metric))
 
     case _: Metric =>

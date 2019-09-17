@@ -1,7 +1,6 @@
+
 organization := "llc.flyingwalrus"
-
 name := "scala-statsd"
-
 scalaVersion := "2.12.8"
 crossScalaVersions := Seq("2.12.8","2.13.0","2.11.12")
 
